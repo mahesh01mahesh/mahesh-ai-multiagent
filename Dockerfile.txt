@@ -2,9 +2,9 @@ FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
+RUN chmod +x mvnw
 RUN ./mvnw dependency:go-offline
 COPY src ./src
-RUN mkdir -p src/main/resources && echo "spring.datasource.url=jdbc:postgresql://dpg-d8cmha3eo5us73f1bel0-a.singapore-postgres.render.com:5432/maheshdb_sb5g\nspring.datasource.username=adminuser\nspring.datasource.password=Qyx2o3Wh7r8rk41dRKPvwtGw4uarZ4qO\nspring.datasource.driver-class-name=org.postgresql.Driver\nspring.jpa.hibernate.ddl-auto=update\nspring.jpa.show-sql=false\nserver.port=8080" > src/main/resources/application.properties
 RUN ./mvnw clean package -DskipTests
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "target/multiagent-0.0.1-SNAPSHOT.jar"]
